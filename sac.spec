@@ -1,6 +1,6 @@
 Name: sac
 Version: 1.3
-Release: 15%{?dist}
+Release: 17%{?dist}
 Summary: Java standard interface for CSS parser
 License: W3C
 Group: System Environment/Libraries
@@ -50,18 +50,12 @@ cp -p ./build/lib/sac.jar $RPM_BUILD_ROOT%{_javadir}/sac.jar
 mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 cp -pr build/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 
-%add_to_maven_depmap org.w3c.css sac %{version} JPP sac
-
 # poms
 install -d -m 755 %{buildroot}%{_mavenpomdir}
 install -pm 644 %{SOURCE3} \
     %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
 
-%post
-%update_maven_depmap
-
-%postun
-%update_maven_depmap
+%add_maven_depmap
 
 %files
 %defattr(-,root,root,-)
@@ -76,6 +70,12 @@ install -pm 644 %{SOURCE3} \
 %{_javadocdir}/%{name}
 
 %changelog
+* Wed Jan 08 2014 Caolán McNamara <caolanm@redhat.com> - 1.3-17
+- Resolves: rhbz#1027720 Use add_maven_depmap instead of deprecated macros
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1.3-16
+- Mass rebuild 2013-12-27
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
